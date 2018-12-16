@@ -32,7 +32,7 @@ public class Game implements Runnable{
 	
 	private void init() {
 		display = new Display(title, width, height);
-		testImage = ImageLoader.loadImage("/Graphics/Tilesets/grass-tiles.png");
+		testImage = ImageLoader.loadImage("/grass-tiles.png");
 		sheet = new Spritesheet(testImage);
 		Assets.init();
 	}
