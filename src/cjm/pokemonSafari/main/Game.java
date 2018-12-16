@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import cjm.pokemonSafari.display.Display;
+import cjm.pokemonSafari.gfx.Assets;
 import cjm.pokemonSafari.gfx.ImageLoader;
 import cjm.pokemonSafari.gfx.Spritesheet;
 
@@ -31,8 +32,9 @@ public class Game implements Runnable{
 	
 	private void init() {
 		display = new Display(title, width, height);
-		testImage = ImageLoader.loadImage("/Graphics/Tilesets/Outside.png");
+		testImage = ImageLoader.loadImage("/Graphics/Tilesets/grass-tiles.png");
 		sheet = new Spritesheet(testImage);
+		Assets.init();
 	}
 	
 	private void tick() {
