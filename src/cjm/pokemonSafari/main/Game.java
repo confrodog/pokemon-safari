@@ -50,7 +50,7 @@ public class Game implements Runnable{
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
 		
-		g.drawImage(, 5, 5, null);
+		g.drawImage(sheet.crop(0, 0, 32, 32), 5, 5, null);
 		
 		//End Drawing
 		bs.show();
