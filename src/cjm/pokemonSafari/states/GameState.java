@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import cjm.pokemonSafari.Game;
 import cjm.pokemonSafari.entities.player.Player;
+import cjm.pokemonSafari.tile.Tile;
 
 public class GameState extends State{
 	
@@ -20,10 +21,9 @@ public class GameState extends State{
 	}
 
 	public void render(Graphics g) {
+		Tile.tiles[0].render(g, 0, 0);
+		
 		player.render(g);
-		
-		
-		
 	}
 
 }
