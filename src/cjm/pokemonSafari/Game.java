@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 
 import cjm.pokemonSafari.display.Display;
 import cjm.pokemonSafari.gfx.Assets;
+import cjm.pokemonSafari.gfx.GameCamera;
 import cjm.pokemonSafari.input.KeyManager;
 import cjm.pokemonSafari.states.GameState;
 import cjm.pokemonSafari.states.MenuState;
@@ -29,6 +30,12 @@ public class Game implements Runnable{
 	//Input
 	private KeyManager keyManager;
 	
+	//Camera
+	private GameCamera camera;
+	
+	//Handler
+	private Handler handler;
+	
 	public Game(String Title, int width, int height) {
 		this.title = Title;
 		this.width = width;
@@ -41,8 +48,11 @@ public class Game implements Runnable{
 		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 		
-		gameState = new GameState(this);
-		menuState = new MenuState(this);
+		camera = new GameCamera(this,0,0);
+		handler = new Handler(this);
+		
+		gameState = new GameState(handler);
+		menuState = new MenuState(handler);
 		State.setState(gameState);
 	}
 	
@@ -107,6 +117,17 @@ public class Game implements Runnable{
 	
 	public KeyManager getKeyManager() {
 		return keyManager;
+	}
+	
+	public GameCamera getCamera() {
+		return camera;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
 	}
 	
 	public synchronized void start() {

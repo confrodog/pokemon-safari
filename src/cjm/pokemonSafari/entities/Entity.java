@@ -2,12 +2,15 @@ package cjm.pokemonSafari.entities;
 
 import java.awt.Graphics;
 
+import cjm.pokemonSafari.Handler;
+
 public abstract class Entity {
-	
+	protected Handler handler;
 	protected float x, y;
 	protected int width, height;
 	
-	public Entity(float x, float y, int width, int height) {
+	public Entity(Handler handler, float x, float y, int width, int height) {
+		this.handler = handler;
 		this.x = x;
 		this.y = y;
 		this.width = width;
