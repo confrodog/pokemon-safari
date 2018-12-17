@@ -1,4 +1,4 @@
-package cjm.pokemonSafari.main;
+package cjm.pokemonSafari;
 
 public class Launcher {
 	

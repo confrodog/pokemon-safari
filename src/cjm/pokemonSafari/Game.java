@@ -1,4 +1,4 @@
-package cjm.pokemonSafari.main;
+package cjm.pokemonSafari;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -78,7 +78,7 @@ public class Game implements Runnable{
 		int ticks = 0;
 		
 		while(running) {
-			now = System.nanoTime();
+			now = System.nanoTime();	//makes so that the game always runs at 60 fps
 			delta += (now - lastTime) / timePerTick;
 			timer += now-lastTime; 
 			lastTime = now;
@@ -89,7 +89,7 @@ public class Game implements Runnable{
 				ticks++;
 				delta--;
 			}
-			if(timer > 1000000000) {
+			if(timer > 1000000000) {	//this is just used to tell us the fps
 				System.out.println("Ticks and frames:" + ticks);
 				timer = 0;
 				ticks = 0;

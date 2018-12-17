@@ -12,7 +12,7 @@ public class Assets {
 	grassMiddle5, tallGrass;
 	
 	public static void init() {
-		cutGrassSheet(new Spritesheet(ImageLoader.loadImage("/grass-tiles.png")));
+		cutGrassSheet(new Spritesheet(ImageLoader.loadImage("/Graphics/grass-tiles.png")));
 	}
 	private static void cutGrassSheet(Spritesheet ss) {
 		black = ss.crop(0, 0, width, height);
