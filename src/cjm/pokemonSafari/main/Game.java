@@ -2,12 +2,12 @@ package cjm.pokemonSafari.main;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import cjm.pokemonSafari.display.Display;
 import cjm.pokemonSafari.gfx.Assets;
-import cjm.pokemonSafari.gfx.ImageLoader;
-import cjm.pokemonSafari.gfx.Spritesheet;
+import cjm.pokemonSafari.states.GameState;
+import cjm.pokemonSafari.states.MenuState;
+import cjm.pokemonSafari.states.State;
 
 public class Game implements Runnable{
 	
@@ -21,8 +21,9 @@ public class Game implements Runnable{
 	private BufferStrategy bs;
 	private Graphics g;
 	
-	private BufferedImage testImage;
-	private Spritesheet sheet;
+	//States
+	private State gameState;
+	private State menuState;
 	
 	public Game(String Title, int width, int height) {
 		this.title = Title;
@@ -32,13 +33,16 @@ public class Game implements Runnable{
 	
 	private void init() {
 		display = new Display(title, width, height);
-		testImage = ImageLoader.loadImage("/grass-tiles.png");
-		sheet = new Spritesheet(testImage);
 		Assets.init();
+		
+		gameState = new GameState();
+		menuState = new MenuState();
+		State.setState(gameState);
 	}
 	
 	private void tick() {
-		
+		if(State.getState() != null)
+			State.getState().tick();
 	}
 	
 	private void render() {
@@ -52,7 +56,8 @@ public class Game implements Runnable{
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
 		
-		g.drawImage(sheet.crop(0, 0, 32, 32), 5, 5, null);
+		if(State.getState() != null)
+			State.getState().render(g);
 		
 		//End Drawing
 		bs.show();
@@ -64,9 +69,31 @@ public class Game implements Runnable{
 		
 		init();
 		
+		int fps = 60;
+		double timePerTick = 1000000000 / fps;
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+		long timer = 0;
+		int ticks = 0;
+		
 		while(running) {
-			tick();
-			render();
+			now = System.nanoTime();
+			delta += (now - lastTime) / timePerTick;
+			timer += now-lastTime; 
+			lastTime = now;
+			
+			if(delta >= 1) {
+				tick();
+				render();
+				ticks++;
+				delta--;
+			}
+			if(timer > 1000000000) {
+				System.out.println("Ticks and frames:" + ticks);
+				timer = 0;
+				ticks = 0;
+			}
 		}
 		stop();
 	}
