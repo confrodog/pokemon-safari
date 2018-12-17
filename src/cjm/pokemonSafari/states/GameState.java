@@ -2,22 +2,25 @@ package cjm.pokemonSafari.states;
 
 import java.awt.Graphics;
 
-import cjm.pokemonSafari.gfx.Assets;
+import cjm.pokemonSafari.Game;
+import cjm.pokemonSafari.entities.player.Player;
 
 public class GameState extends State{
-
-	public GameState() {
-		
+	
+	private Player player;
+	
+	public GameState(Game game) {
+		super(game);
+		player = new Player(game, 100,100 );
 	}
 	
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
-		
+		player.tick();
 	}
 
 	public void render(Graphics g) {
-
+		player.render(g);
 		
 		
 		

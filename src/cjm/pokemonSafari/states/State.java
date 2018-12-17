@@ -2,6 +2,8 @@ package cjm.pokemonSafari.states;
 
 import java.awt.Graphics;
 
+import cjm.pokemonSafari.Game;
+
 public abstract class State {
 	
 	private static State currentState = null;
@@ -15,6 +17,12 @@ public abstract class State {
 	}
 	
 	//CLASS
+	protected Game game;
+	
+	public State(Game game) {
+		this.game = game;
+	}
+	
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	

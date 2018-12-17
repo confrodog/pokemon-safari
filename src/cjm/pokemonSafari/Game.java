@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 
 import cjm.pokemonSafari.display.Display;
 import cjm.pokemonSafari.gfx.Assets;
+import cjm.pokemonSafari.input.KeyManager;
 import cjm.pokemonSafari.states.GameState;
 import cjm.pokemonSafari.states.MenuState;
 import cjm.pokemonSafari.states.State;
@@ -25,22 +26,28 @@ public class Game implements Runnable{
 	private State gameState;
 	private State menuState;
 	
+	//Input
+	private KeyManager keyManager;
+	
 	public Game(String Title, int width, int height) {
 		this.title = Title;
 		this.width = width;
 		this.height = height;
+		keyManager = new KeyManager();
 	}
 	
 	private void init() {
 		display = new Display(title, width, height);
+		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 		
-		gameState = new GameState();
-		menuState = new MenuState();
+		gameState = new GameState(this);
+		menuState = new MenuState(this);
 		State.setState(gameState);
 	}
 	
 	private void tick() {
+		keyManager.tick();
 		if(State.getState() != null)
 			State.getState().tick();
 	}
@@ -97,6 +104,11 @@ public class Game implements Runnable{
 		}
 		stop();
 	}
+	
+	public KeyManager getKeyManager() {
+		return keyManager;
+	}
+	
 	public synchronized void start() {
 		if(running)
 			return;
