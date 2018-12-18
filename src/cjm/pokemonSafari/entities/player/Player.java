@@ -1,11 +1,13 @@
 package cjm.pokemonSafari.entities.player;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import cjm.pokemonSafari.Handler;
 import cjm.pokemonSafari.entities.Entity;
 import cjm.pokemonSafari.gfx.Assets;
+import cjm.pokemonSafari.tile.Tile;
 
 public class Player extends Entity{
 
@@ -24,6 +26,11 @@ public class Player extends Entity{
 		this.lastFacing = Assets.playerFront;
 		this.xMove = 0;
 		this.yMove = 0;
+		
+		bounds.x = 0;
+		bounds.y = 16;
+		bounds.width = 24;
+		bounds.height = 16;
 	}
 
 	@Override
@@ -34,8 +41,46 @@ public class Player extends Entity{
 	}
 	
 	public void move() {
-		x += xMove;
-		y += yMove;
+		moveX();
+		moveY();
+		
+	}
+	public void moveX() {
+		if(xMove > 0) { //moving right
+			
+			int tx = (int) (x + xMove + bounds.x + bounds.width) / Tile.TILE_WIDTH;
+			if(!collisionWithTile(tx, (int) (y+bounds.y) / Tile.TILE_HEIGHT)
+					&& !collisionWithTile(tx, (int) (y+bounds.y+bounds.height) / Tile.TILE_HEIGHT )) {
+				x += xMove;
+			}
+			
+		}else if(xMove < 0) { // moving left
+			int tx = (int) (x + xMove + bounds.x) / Tile.TILE_WIDTH;
+			if(!collisionWithTile(tx, (int) (y+bounds.y) / Tile.TILE_HEIGHT)
+					&& !collisionWithTile(tx, (int) (y+bounds.y+bounds.height) / Tile.TILE_HEIGHT )) {
+				x += xMove;
+			}
+		}
+	}
+	public void moveY() {
+		if(yMove > 0) { // moving down
+			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
+			if(!collisionWithTile((int) (x + bounds.x) / Tile.TILE_WIDTH, ty)
+					&& !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
+				y += yMove;
+			}
+		}
+		else if(yMove < 0) { // moving up
+			int ty = (int) (y + yMove + bounds.y) / Tile.TILE_HEIGHT;
+			if(!collisionWithTile((int) (x + bounds.x) / Tile.TILE_WIDTH, ty)
+					&& !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
+				y += yMove;
+			}
+		}
+	}
+	
+	protected boolean collisionWithTile(int x, int y) {
+		return handler.getWorld().getTile(x, y).isSolid();
 	}
 	
 	private void getInput() {
@@ -73,6 +118,12 @@ public class Player extends Entity{
 		
 		g.drawImage(lastFacing,(int) (x - handler.getCamera().getxOffset()), 
 				(int) (y - handler.getCamera().getyOffset()), width, height, null);
+		
+		g.setColor(Color.RED);
+		
+		g.fillRect((int) (x + bounds.x - handler.getCamera().getxOffset()),
+				(int) (y + bounds.y - handler.getCamera().getyOffset()), 
+				bounds.width, bounds.y);
 		
 	}
 	

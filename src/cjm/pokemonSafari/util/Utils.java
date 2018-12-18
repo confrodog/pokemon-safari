@@ -5,7 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Utils {
-
+	//class that handles various processes that will be needed elsewhere
+	
 	public static String loadFileAsString(String path) {
 		StringBuilder sb = new StringBuilder();
 		
