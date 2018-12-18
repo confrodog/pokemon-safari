@@ -23,12 +23,12 @@ public class KeyManager implements KeyListener{
 		
 	}
 
-	public void keyPressed(KeyEvent e) {
+	public synchronized void keyPressed(KeyEvent e) {
 		keys[e.getKeyCode()] = true;
 	}
 
-	public void keyReleased(KeyEvent e) {
+	public synchronized void keyReleased(KeyEvent e) {
 		keys[e.getKeyCode()] = false;
+		
 	}
-
 }

@@ -48,7 +48,6 @@ public class World {
 		int yStart = (int) Math.max(0, handler.getCamera().getyOffset() / Tile.TILE_HEIGHT);
 		int yEnd = (int) Math.min(height, (handler.getCamera().getyOffset() + handler.getWidth() ) / Tile.TILE_HEIGHT + 1);
 		
-		
 		for(int y = yStart; y < yEnd; y++) {
 			for(int x = xStart; x < xEnd;x++) {
 				getTile(x,y).render(g, (int) (x * Tile.TILE_WIDTH - handler.getCamera().getxOffset()),
@@ -65,5 +64,12 @@ public class World {
 		if(t == null)
 			return Tile.grassTile;
 		return t;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
 	}
 }

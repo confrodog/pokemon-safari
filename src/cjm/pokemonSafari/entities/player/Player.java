@@ -41,9 +41,8 @@ public class Player extends Entity{
 	}
 	
 	public void move() {
-		moveX();
-		moveY();
-		
+			moveX();
+			moveY();
 	}
 	public void moveX() {
 		if(xMove > 0) { //moving right
@@ -53,12 +52,18 @@ public class Player extends Entity{
 					&& !collisionWithTile(tx, (int) (y+bounds.y+bounds.height) / Tile.TILE_HEIGHT )) {
 				x += xMove;
 			}
+			else {
+				x = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
+			}
 			
 		}else if(xMove < 0) { // moving left
 			int tx = (int) (x + xMove + bounds.x) / Tile.TILE_WIDTH;
 			if(!collisionWithTile(tx, (int) (y+bounds.y) / Tile.TILE_HEIGHT)
 					&& !collisionWithTile(tx, (int) (y+bounds.y+bounds.height) / Tile.TILE_HEIGHT )) {
 				x += xMove;
+			}
+			else {
+				x = tx * Tile.TILE_WIDTH - bounds.x + Tile.TILE_WIDTH;
 			}
 		}
 	}
@@ -69,12 +74,18 @@ public class Player extends Entity{
 					&& !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
 				y += yMove;
 			}
+			else {
+				y = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height -1;
+			}
 		}
 		else if(yMove < 0) { // moving up
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILE_HEIGHT;
 			if(!collisionWithTile((int) (x + bounds.x) / Tile.TILE_WIDTH, ty)
 					&& !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
 				y += yMove;
+			}
+			else {
+				y = ty * Tile.TILE_HEIGHT - bounds.y + Tile.TILE_HEIGHT;
 			}
 		}
 	}
@@ -99,32 +110,20 @@ public class Player extends Entity{
 
 	@Override
 	public void render(Graphics g) {
-		if(handler.getKeyManager().up) {
-			//g.drawImage(Assets.playerBack, (int) x, (int) y, width, height, null);
+		if(handler.getKeyManager().up && !handler.getKeyManager().down) {
 			lastFacing = Assets.playerBack;
 		}
 		else if(handler.getKeyManager().down) {
-			//g.drawImage(Assets.playerFront, (int) x, (int) y, width, height, null);
 			lastFacing = Assets.playerFront;
 		}
-		else if(handler.getKeyManager().right) {
-			//g.drawImage(Assets.playerRight, (int) x, (int) y, width, height, null);
+		else if(handler.getKeyManager().right && !handler.getKeyManager().left) {
 			lastFacing = Assets.playerRight;
 		}
 		else if(handler.getKeyManager().left) {
-			//g.drawImage(Assets.playerLeft, (int) x, (int) y, width, height, null);
 			lastFacing = Assets.playerLeft;
 		}
-		
 		g.drawImage(lastFacing,(int) (x - handler.getCamera().getxOffset()), 
-				(int) (y - handler.getCamera().getyOffset()), width, height, null);
-		
-		g.setColor(Color.RED);
-		
-		g.fillRect((int) (x + bounds.x - handler.getCamera().getxOffset()),
-				(int) (y + bounds.y - handler.getCamera().getyOffset()), 
-				bounds.width, bounds.y);
-		
+			(int) (y - handler.getCamera().getyOffset()), width, height, null);
 	}
 	
 	//GETTERS AND SETTERS
